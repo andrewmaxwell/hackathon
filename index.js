@@ -25,7 +25,8 @@ app.post('/blockchain/set', (req, res) => {
 	blockchain.set(req.body).then(() => res.send('ok')).catch(errorFunc(res));
 });
 
-app.set('port', (process.env.PORT || 5000));
-app.listen(app.get('port'), function () {
-  console.log('Listening on port 3000');
+const port = process.env.PORT || 5000;
+app.set('port', port);
+app.listen(port, function () {
+  console.log('Listening on port ' + port);
 });

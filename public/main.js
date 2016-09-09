@@ -24,3 +24,4 @@ app.config(['$mdThemingProvider', '$stateProvider', ($mdThemingProvider, $stateP
 }]);
 
 app.factory('blockchain', require('./services/blockchainService'));
+app.factory('interactions', require('./services/interactionService'));

@@ -1,20 +1,10 @@
-module.exports = ['$http', '$interval', ($http, $interval) => {
+module.exports = ['$http', ($http) => {
 
-	// const url = '/blockchain';
-	const url = 'http://localhost:5000/blockchain';
+	const url = 'https://blooming-cliffs-91320.herokuapp.com/blockchain';
 
-	const api = {
-		data: [],
-		getInteractions: id => api.data.filter(r => id == r.interactionId)
+	return {
+		getInteractions: id => $http.get(url).then(resp =>
+			resp.data.filter(r => !id || r.interactionId == id).reverse()
+		)
 	};
-
-	$interval(() => {
-		$http.get(url).then(data => {
-			api.data = data;
-		}).catch(err => {
-			console.error(err);
-		});
-	}, 3000);
-
-	return api;
 }];
