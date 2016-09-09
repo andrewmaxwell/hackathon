@@ -5,19 +5,24 @@ class Blockchain {
 	constructor(url){
 		this.url = url;
 	}
-	getData(){
-		return http.get(this.url);
+	init(){
+		return http.get(this.url).then(data => {
+			this.ledger = data;
+			console.log('Initialized', this.ledger);
+			return this.ledger;
+		});
 	}
 	push(ob){
 		ob.timestamp = Date.now();
 		ob.id = sha256(JSON.stringify(ob));
-		return http.get(this.url).then(ledger => {
-			ledger.push(ob);
-			return http.put(this.url, ledger).then(() => ledger);
-		});
+		this.ledger.push(ob);
+		console.log('Pushing', ob);
+		return http.put(this.url, this.ledger).then(() => this.ledger);
 	}
-	clear(){
-		return http.put(this.url, []);
+	set(to){
+		this.ledger = to;
+		console.log('Setting', to);
+		return http.put(this.url, this.ledger);
 	}
 };
 
