@@ -1,5 +1,3 @@
-const express = require('express');
-
 const Blockchain = require('./blockchain');
 const blockchain = new Blockchain('https://api.myjson.com/bins/tiii');
 
@@ -8,11 +6,12 @@ const errorFunc = res => err => {
 	if (res) res.status(500).send(err);
 };
 
-const app = express();
-
+const app = require('express')();
 app.use(require('body-parser').json());
+app.use(require('cors')());
+app.use(require('compression')());
 
-blockchain.init().catch(errorFunc());
+blockchain.init().catch(err => console.error(err));
 
 app.get('/blockchain', (req, res) => res.send(blockchain.ledger));
 
@@ -23,7 +22,7 @@ app.post('/blockchain', (req, res) => {
 });
 
 app.post('/blockchain/set', (req, res) => {
-	blockchain.set([]).then(() => res.send('ok')).catch(errorFunc(res));
+	blockchain.set(req.body).then(() => res.send('ok')).catch(errorFunc(res));
 });
 
 app.set('port', (process.env.PORT || 5000));

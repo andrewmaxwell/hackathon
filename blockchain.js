@@ -15,6 +15,7 @@ class Blockchain {
 	push(ob){
 		ob.timestamp = Date.now();
 		ob.id = sha256(JSON.stringify(ob));
+		ob.interactionId = ob.interactionId || ob.id;
 		this.ledger.push(ob);
 		console.log('Pushing', ob);
 		return http.put(this.url, this.ledger).then(() => this.ledger);
