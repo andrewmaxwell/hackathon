@@ -41,4 +41,11 @@ app.config([
 ]);
 
 app.factory('blockchain', require('./services/blockchainService'));
-app.factory('interactions', require('./services/interactionService'));
+app.constant('interactionTypes', ['Request Received', 'In Review', 'Accepted', 'Approved', 'Claim Paid']);
+app.constant('interactionIcons', {
+	'Request Received': 'mail',
+	'In Review': 'assignment',
+	'Accepted': 'done',
+	'Approved': 'assignment_turned_in',
+	'Claim Paid': 'attach_money'
+});

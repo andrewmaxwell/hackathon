@@ -1,8 +1,9 @@
+const fixCasing = str => str.split(/[ _]+/).map(w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase()).join(' ');
+
 module.exports = ['$http', ($http) => {
 
 	const url = 'https://blooming-cliffs-91320.herokuapp.com/blockchain';
 
-	const fixCasing = str => str.split(/[ _]+/).map(w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase()).join(' ');
 	const processResponse = response => response.data.reverse().map(row => {
 		row.type = fixCasing(row.type).replace(/_/g, ' ');
 		row.date = new Date(row.timestamp);

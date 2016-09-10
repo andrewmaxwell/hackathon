@@ -1,16 +1,12 @@
-module.exports = ['$scope', 'blockchain', 'interactions', ($scope, blockchain, interactions) => {
-
-	const processInteractions = rows => {
-		$scope.interactions = interactions.process(rows);
-	};
+module.exports = ['$scope', 'blockchain', 'interactionTypes', ($scope, blockchain, interactionTypes) => {
 
 	const errorFunc = err => {
 		console.error(err);
 	};
 
-	blockchain.getInteractionListing().then(processInteractions).catch(errorFunc);
+	blockchain.getInteractionListing().then(rows => $scope.interactions = rows).catch(errorFunc);
 
-	$scope.types = interactions.types;
+	$scope.types = interactionTypes;
 	$scope.num = type => ($scope.interactions || []).filter(t => t.type == type).length;
 
 	$scope.open = row => {
@@ -47,6 +43,6 @@ module.exports = ['$scope', 'blockchain', 'interactions', ($scope, blockchain, i
 			received: 'Friday, September 09, 2016',
 			subject: fixCasing(subject.join(' ')),
 			type: 'Request Received'
-		}).then(processInteractions).catch(errorFunc);
+		}).then(rows => $scope.interactions = rows).catch(errorFunc);
 	};
 }];
