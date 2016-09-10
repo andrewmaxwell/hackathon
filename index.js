@@ -1,3 +1,5 @@
+const express = require('express');
+
 const Blockchain = require('./blockchain');
 const blockchain = new Blockchain('https://api.myjson.com/bins/tiii');
 
@@ -6,10 +8,11 @@ const errorFunc = res => err => {
 	if (res) res.status(500).send(err);
 };
 
-const app = require('express')();
+const app = express();
 app.use(require('body-parser').json());
 app.use(require('cors')());
 app.use(require('compression')());
+app.use(express.static('./public'));
 
 blockchain.init().catch(err => console.error(err));
 

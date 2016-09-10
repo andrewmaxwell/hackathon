@@ -1,34 +1,47 @@
 <div layout="column" ng-cloak layout-fill>
 
-	<md-toolbar md-scroll-shrink>
-    <div class="md-toolbar-tools">Interaction {{ interactionId }}</div>
+	<md-toolbar md-scroll-shrink ng-click="moveForward()">
+    <div class="md-toolbar-tools">Payment Request {{ interactionId.substring(0, 6) }}</div>
   </md-toolbar>
 
-	<!-- <md-content>Stuff goes here</md-content>
-
-	<md-divider></md-divider> -->
-
 	<md-content>
-		<md-list flex>
-			<md-subheader class="md-primary">Records</md-subheader>
 
-			<md-list-item class="md-3-line" ng-repeat="row in interactions" ng-click="null">
-				<!-- <img src="{{ row.icon }}" class="md-avatar"> -->
+		<!-- PROGRESS BUTTONS -->
+		<section layout="row" layout-margin layout-align="center center" layout-wrap>
+			<span ng-repeat="state in states">
+				<i class="material-icons" ng-show="$index" style="position: relative; top: 9px; margin-left: -12px">arrow_forward</i>
+				<md-button
+					class="md-raised"
+					 ng-class="{'md-primary': currentState == state}"
+					 ng-click="null"
+				>{{ state }}</md-button>
+			</span>
+		</section>
+
+		<md-divider></md-divider>
+
+		<!-- PROPERTIES -->
+		<md-list flex>
+			<md-subheader class="md-primary"><h2>Transaction Summary</h2></md-subheader>
+			<md-list-item ng-repeat="(key, val) in propMap" ng-click="null" ng-if="props[key]">
+				<span>
+					<strong>{{ propMap[key].label || propMap[key] }}:</strong>
+					<span>{{ propMap[key].format ? propMap[key].format(props[key]) : props[key] }}</span>
+				</span>
+			</md-list-item>
+		</md-list>
+
+		<md-divider></md-divider>
+
+		<!-- TRANSACTION HISTORY -->
+		<md-list flex>
+			<md-subheader class="md-primary"><h2>Transaction History</h2></md-subheader>
+
+			<md-list-item class="md-2-line" ng-repeat="row in interactions" ng-click="null">
+				<i class="material-icons md-avatar">assignment</i>
 				<div class="md-list-item-text" layout="column">
 					<h3>{{ row.type }}</h3>
 					<h4>{{ row.date | date:'short' }}</h4>
-					<p>
-						<span ng-repeat="(key, val) in row.notes">
-							<strong>{{ key }}:</strong>
-							{{ val }}
-						</span>
-					</p>
-					<!-- <table>
-						<tr ng-repeat="(key, val) in row.notes">
-							<td><strong>{{ key }}:</strong></td>
-							<td>{{ val }}</td>
-						</tr>
-					</table> -->
 				</div>
 			</md-list-item>
 

@@ -1,0 +1,25 @@
+<div layout="column" ng-cloak layout-fill>
+
+	<md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools" ng-click="makeNew()">Things</div>
+  </md-toolbar>
+
+	<md-tabs md-dynamic-height md-border-bottom>
+		<md-tab ng-repeat="type in types" label="{{ type }} ({{ num(type) }})">
+			<md-content>
+				<md-list>
+					<md-list-item class="md-3-line" ng-repeat="row in interactions | filter:{type: type}" ng-click="open(row)">
+						<div class="md-list-item-text" layout="column">
+							<h3>{{ row.type }}</h3>
+							<h4>{{ row.date | date:'short' }}</h4>
+							<p>{{ row.from }}</p>
+						</div>
+					</md-list-item>
+				</md-list>
+			</md-content>
+		</md-tab>
+	</md-tabs>
+
+
+
+</div>
